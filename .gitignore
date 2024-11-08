@@ -1,1 +1,42 @@
+# Node.js and npm
 node_modules/
+
+# Expo / React Native
+.expo/
+.expo-shared/
+frontend/node_modules/
+
+# macOS-specific files
+.DS_Store
+
+# IDE/Editor config files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Build output
+build/
+dist/
+*.log
+
+# React Native / Expo / Metro bundler cache
+*.metro-*
+
+# Temporary files
+*.swp
+*.bak
+
+# Environment files (add your environment variables here)
+.env
+.env.* 
+
+# iOS build folder (Xcode)
+ios/build/
+
+# Android build folder (Android Studio)
+android/.gradle/
+android/app/build/
+
+# Expo managed builds
+expo-package.json
