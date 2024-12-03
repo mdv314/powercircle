@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { supabase } from '../supabase';
+import Navbar from './Navbar';
 
-export default function WorkoutLogScreen({ user }) {
+export default function WorkoutLogScreen({ navigation, user }) {
   const [exercises, setExercises] = useState([]);
   const [currentExercise, setCurrentExercise] = useState('');
   const [weight, setWeight] = useState('');
@@ -96,6 +97,7 @@ export default function WorkoutLogScreen({ user }) {
         )}
       />
       <Button title="Finish Workout" onPress={finishWorkout} />
+      <Navbar navigation={navigation} user={user}></Navbar>
     </View>
   );
 }
