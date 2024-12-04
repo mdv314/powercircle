@@ -25,7 +25,7 @@ export default function App() {
       case 'WorkoutLog':
         return <WorkoutLogScreen user={user} />;
       case 'PowerCircle':
-        return <CircleScreen user={user}/>;
+        return <CircleScreen user={user} navigate={setCurrentScreen}/>;
       case 'FriendsScreen':
         return <FriendsScreen user={user}/>;
       case 'Account':

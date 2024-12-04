@@ -1,10 +1,11 @@
 // components/CircleScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView, Button} from 'react-native';
 import { supabase } from '../supabase';
 import Navbar from '../components/Navbar';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function CircleScreen({ user }) {
+export default function CircleScreen({ user, navigate }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
 
   const fetchFriendWorkouts = async () => {
@@ -40,6 +41,7 @@ export default function CircleScreen({ user }) {
     <SafeAreaView style={styles.safeArea}>
     <View style={styles.container}>
       <Text style={styles.heading}>Your Circle</Text>
+      <Button title="Add Friend" onPress = {() => navigate('FriendsScreen')}/>
       <FlatList
         data={friendWorkouts}
         keyExtractor={(item, index) => `${item.user_id}-${index}`}
