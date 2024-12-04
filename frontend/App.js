@@ -1,60 +1,72 @@
 // App.js
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { supabase } from './supabase';
-import LoginScreen from './components/LoginScreen';
-import WorkoutLogScreen from './components/WorkoutLogScreen';
-import CircleScreen from './components/CircleScreen';
-import FriendsScreen from './components/FriendsScreen';
+import LoginScreen from './Screens/LoginScreen';
+import WorkoutLogScreen from './Screens/WorkoutLogScreen';
+import CircleScreen from './Screens/CircleScreen';
+import FriendsScreen from './Screens/FriendsScreen';
+import AccountScreen from './Screens/AccountScreen';
 
-const Stack = createStackNavigator();
+import Navbar from './components/Navbar';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [currentScreen, setCurrentScreen] = useState('Login'); // here we use this state string to control the current screen we are displaying
+
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case 'Login':
+        return <LoginScreen setuser={setUser} />;
+      case 'WorkoutLog':
+        return <WorkoutLogScreen user={user} />;
+      case 'PowerCircle':
+        return <CircleScreen user={user}/>;
+      case 'FriendsScreen':
+        return <FriendsScreen user={user}/>;
+      case 'Account':
+        return <AccountScreen user={user}/>;
+      default:
+        return <WorkoutLogScreen user={user} />;
+    }
+  };
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user || null);
-    });
+      const loggedInUser = session?.user || null;
+      setUser(loggedInUser);
 
+      if (loggedInUser) {
+        setCurrentScreen('WorkoutLog');
+      }
+    });
+    
     return () => {
       authListener.subscription.unsubscribe();
     };
   }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {!user ? (
-          <Stack.Screen name="Login">
-            {(props) => <LoginScreen {...props} setUser={setUser} />}
-          </Stack.Screen>
-        ) : (
-          <>
-            <Stack.Screen name="Workout Log">
-              {(props) => <WorkoutLogScreen {...props} user={user} />}
-            </Stack.Screen>
-            <Stack.Screen
-              name="Circle"
-              options={({ navigation }) => ({
-                headerRight: () => (
-                  <Button
-                    title="Friends"
-                    onPress={() => navigation.navigate('Friends')}
-                  />
-                ),
-              })}
-            >
-              {(props) => <CircleScreen {...props} user={user} />}
-            </Stack.Screen>
-            <Stack.Screen name="Friends">
-              {(props) => <FriendsScreen {...props} user={user} />}
-            </Stack.Screen>
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+      <View style={styles.content}>
+        {renderScreen()}
+      </View>
+      { user && 
+      <Navbar navigate={setCurrentScreen}/>
+      }
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+  },
+});

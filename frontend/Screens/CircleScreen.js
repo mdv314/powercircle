@@ -1,10 +1,10 @@
 // components/CircleScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import { supabase } from '../supabase';
-import Navbar from './Navbar';
+import Navbar from '../components/Navbar';
 
-export default function CircleScreen({ user, navigation }) {
+export default function CircleScreen({ user }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
 
   const fetchFriendWorkouts = async () => {
@@ -37,6 +37,7 @@ export default function CircleScreen({ user, navigation }) {
   }, []);
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <View style={styles.container}>
       <Text style={styles.heading}>Your Circle</Text>
       <FlatList
@@ -58,12 +59,15 @@ export default function CircleScreen({ user, navigation }) {
           </View>
         )}
       />
-      <Navbar navigation={navigation} />
     </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 20,

@@ -2,18 +2,20 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon, MD3Colors } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { BRAND_COLORS } from '../constants';
 
-const Navbar = ({ navigation }) => {
+const Navbar = ({ navigate }) => {
+  const iconSize = 38;
   return (
     <SafeAreaView edges={['bottom']} style={styles.navbar}>
-      <TouchableOpacity onPress={() => navigation.navigate('Workout Log')}>
-        <Icon source="history" color={MD3Colors.error50} size={50} />
+      <TouchableOpacity onPress={() => navigate('WorkoutLog')}>
+        <Icon source="history" color={BRAND_COLORS.blue} size={iconSize} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Circle')}>
-        <Icon source="circle-double" color={MD3Colors.error50} size={50} />
+      <TouchableOpacity onPress={() => navigate('PowerCircle')}>
+        <Icon source="circle-double" color={BRAND_COLORS.blue} size={iconSize} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Workout Log')}>
-        <Icon source="account" color={MD3Colors.error50} size={50} />
+      <TouchableOpacity onPress={() => navigate('Account')}>
+        <Icon source="account" color={BRAND_COLORS.blue} size={iconSize} />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -21,18 +23,13 @@ const Navbar = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   navbar: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
   },
-  navItem: {
-    fontSize: 16,
-    color: '#007BFF',
-  },
-
 });
 
 export default Navbar;

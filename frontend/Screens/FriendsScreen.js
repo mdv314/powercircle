@@ -1,10 +1,10 @@
 // components/FriendsScreen.js
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, FlatList, Alert, StyleSheet,  } from 'react-native';
 import { supabase } from '../supabase';
-import Navbar from './Navbar';
+import Navbar from '../components/Navbar';
 
-export default function FriendsScreen({ navigation, user }) {
+export default function FriendsScreen({ user }) {
   const [friendEmail, setFriendEmail] = useState('');
   const [friends, setFriends] = useState([]);
 
@@ -101,7 +101,6 @@ export default function FriendsScreen({ navigation, user }) {
         style={styles.input}
       />
       <Button title="Add Friend" onPress={addFriend} />
-      <Navbar navigation={navigation} />
     </View>
   );
 }

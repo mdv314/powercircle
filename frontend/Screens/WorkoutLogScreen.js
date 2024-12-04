@@ -1,8 +1,7 @@
 // components/WorkoutLogScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, FlatList, StyleSheet, Alert } from 'react-native';
+import { View, TextInput, Button, Text, FlatList, StyleSheet, Alert, SafeAreaView } from 'react-native';
 import { supabase } from '../supabase';
-import Navbar from './Navbar';
 
 export default function WorkoutLogScreen({ navigation, user }) {
   const [exercises, setExercises] = useState([]);
@@ -55,6 +54,7 @@ export default function WorkoutLogScreen({ navigation, user }) {
   };
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <View style={styles.container}>
       <TextInput
         placeholder="Enter exercise name"
@@ -97,12 +97,15 @@ export default function WorkoutLogScreen({ navigation, user }) {
         )}
       />
       <Button title="Finish Workout" onPress={finishWorkout} />
-      <Navbar navigation={navigation} user={user}></Navbar>
     </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 20,
