@@ -30,17 +30,22 @@ export default function FriendsScreen({ user }) {
   };
   
   const addFriend = async () => {
+    console.log("Button Works");
+    try{
     if (!friendEmail.trim()) {
       Alert.alert('Error', 'Please enter a valid email.');
       return;
     }
 
     // Look up the friend's user_id by email in the auth.users table
-    const { data: userData, error: userError } = await supabase
-      .from('auth.users')
-      .select('id')
-      .eq('email', friendEmail)
-      .single();
+    // const { data: userData, error: userError } = await supabase
+    //   .from('auth.users')
+    //   .select('id')
+    //   .eq('email', friendEmail);
+
+    const { data: userData, error: userError } = await supabase.rpc('get_user_id', { email: friendEmail });
+    console.log("User Data:", userData);
+    console.log("User Error:", userError);
 
     if (userError) {
       Alert.alert('Error', 'Email not found.');
@@ -48,21 +53,30 @@ export default function FriendsScreen({ user }) {
       return;
     }
 
-    const friendId = userData.id;
+    
+    const friendId = userData?.[0]?.id;
 
+    if (!friendId) {
+      console.error("Friend ID is undefined or null.");
+      console.log(friendEmail);
+      Alert.alert('Error', 'Failed to find user.');
+      return;
+    }
+
+    console.log("User ID: ", user.id)
+    console.log("Friend ID: ", friendId)
     // Check if the friendship already exists
     const { data: existingFriend, error: existingError } = await supabase
       .from('friends')
       .select('*')
       .eq('user_id', user.id)
-      .eq('friend_id', friendId)
-      .single();
+      .eq('friend_id', friendId);
 
-    if (existingFriend) {
+    if (existingFriend && existingFriend.length > 0) {
       Alert.alert('Error', 'This user is already your friend.');
       return;
     }
-
+    
     if (existingError && existingError.code !== 'PGRST116') {
       console.error('Error checking existing friend:', existingError);
       return;
@@ -79,9 +93,15 @@ export default function FriendsScreen({ user }) {
       return;
     }
 
+    
+
     Alert.alert('Success', 'Friend added!');
     setFriendEmail('');
     fetchFriends();
+  }
+  catch (err){
+    console.error("random ahh error occurred in addFriend: ", err);
+  }
   };
 
   return (
