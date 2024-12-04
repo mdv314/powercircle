@@ -1,5 +1,7 @@
 // App.js
 import React, { useState, useEffect } from 'react';
+import "@/global.css";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,17 +23,17 @@ export default function App() {
   const renderScreen = () => {
     switch (currentScreen) {
       case 'Login':
-        return <LoginScreen setuser={setUser} />;
+        return <GluestackUIProvider mode="light"><LoginScreen setuser={setUser} /></GluestackUIProvider>;
       case 'WorkoutLog':
-        return <WorkoutLogScreen user={user} />;
+        return <GluestackUIProvider mode="light"><WorkoutLogScreen user={user}/></GluestackUIProvider>;
       case 'PowerCircle':
-        return <CircleScreen user={user}/>;
+        return <GluestackUIProvider mode="light"><CircleScreen user={user}/></GluestackUIProvider>;
       case 'FriendsScreen':
-        return <FriendsScreen user={user}/>;
+        return <GluestackUIProvider mode="light"><FriendsScreen user={user} navigate={setCurrentScreen}/></GluestackUIProvider>;
       case 'Account':
-        return <AccountScreen user={user}/>;
+        return <GluestackUIProvider mode="light"><AccountScreen user={user}/></GluestackUIProvider>;
       default:
-        return <WorkoutLogScreen user={user} />;
+        return <GluestackUIProvider mode="light"><WorkoutLogScreen user={user} /></GluestackUIProvider>;
     }
   };
 
@@ -51,14 +53,14 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        {renderScreen()}
-      </View>
-      { user && 
-      <Navbar navigate={setCurrentScreen}/>
-      }
-    </View>
+    <GluestackUIProvider mode="light"><View style={styles.container}>
+        <View style={styles.content}>
+          {renderScreen()}
+        </View>
+        { user && 
+        <Navbar navigate={setCurrentScreen}/>
+        }
+      </View></GluestackUIProvider>
   );
 }
 

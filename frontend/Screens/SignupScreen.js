@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import { supabase } from '../supabase';
 
-export default SignupScreen = ({ setUser, navigation }) => {
+export default SignupScreen = ({ setUser, navigate }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

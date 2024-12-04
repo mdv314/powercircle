@@ -9,7 +9,7 @@ const Navbar = ({ navigate }) => {
   return (
     <SafeAreaView edges={['bottom']} style={styles.navbar}>
       <TouchableOpacity onPress={() => navigate('WorkoutLog')}>
-        <Icon source="history" color={BRAND_COLORS.blue} size={iconSize} />
+        <Icon source="dumbbell" color={BRAND_COLORS.blue} size={iconSize} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigate('PowerCircle')}>
         <Icon source="circle-double" color={BRAND_COLORS.blue} size={iconSize} />
