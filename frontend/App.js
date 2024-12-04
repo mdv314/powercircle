@@ -23,17 +23,17 @@ export default function App() {
   const renderScreen = () => {
     switch (currentScreen) {
       case 'Login':
-        return <GluestackUIProvider mode="light"><LoginScreen setuser={setUser} /></GluestackUIProvider>;
+        return <LoginScreen setuser={setUser} navigate={setCurrentScreen}/>;
       case 'WorkoutLog':
-        return <GluestackUIProvider mode="light"><WorkoutLogScreen user={user}/></GluestackUIProvider>;
+        return <WorkoutLogScreen user={user}/>;
       case 'PowerCircle':
-        return <GluestackUIProvider mode="light"><CircleScreen user={user}/></GluestackUIProvider>;
+        return <CircleScreen user={user}/>;
       case 'FriendsScreen':
-        return <GluestackUIProvider mode="light"><FriendsScreen user={user} navigate={setCurrentScreen}/></GluestackUIProvider>;
+        return <FriendsScreen user={user} navigate={setCurrentScreen}/>;
       case 'Account':
-        return <GluestackUIProvider mode="light"><AccountScreen user={user}/></GluestackUIProvider>;
+        return <AccountScreen user={user}/>;
       default:
-        return <GluestackUIProvider mode="light"><WorkoutLogScreen user={user} /></GluestackUIProvider>;
+        return <WorkoutLogScreen user={user} />;
     }
   };
 
