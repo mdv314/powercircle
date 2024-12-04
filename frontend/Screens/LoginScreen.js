@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Icon } from "react-native-paper";
-import { View, Button, Text, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { supabase } from "../supabase";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Heading } from "@/components/ui/heading";
+import { Button, ButtonText } from "@/components/ui/button";
 
 export default function LoginScreen({ setUser, navigate }) {
   const [email, setEmail] = useState("");
@@ -69,9 +70,15 @@ export default function LoginScreen({ setUser, navigate }) {
 
         {/* Error Message */}
         {error ? <Text style={styles.error}>{error}</Text> : null}
-
-        {/* Login Button */}
-        <Button title="Login" onPress={handleLogin} />
+      </View>
+      {/* Login Button */}
+      <View>
+        <Button size="md" variant="solid" action="primary" onPress={handleLogin}>
+          <ButtonText>Login</ButtonText>
+        </Button>
+        <Button size="md" variant="solid" action="primary" onPress={() => navigate('Signup')}>
+          <ButtonText>Don't have an account? Signup here!</ButtonText>
+        </Button>
       </View>
     </SafeAreaView>
   );

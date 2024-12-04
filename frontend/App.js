@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { supabase } from './supabase';
 import LoginScreen from './Screens/LoginScreen';
+import SignupScreen from './Screens/SignupScreen';
 import WorkoutLogScreen from './Screens/WorkoutLogScreen';
 import CircleScreen from './Screens/CircleScreen';
 import FriendsScreen from './Screens/FriendsScreen';
@@ -24,6 +25,8 @@ export default function App() {
     switch (currentScreen) {
       case 'Login':
         return <LoginScreen setuser={setUser} navigate={setCurrentScreen}/>;
+      case 'Signup':
+        return <SignupScreen setuser={setUser} navigate={setCurrentScreen}/>;
       case 'WorkoutLog':
         return <WorkoutLogScreen user={user}/>;
       case 'PowerCircle':
