@@ -1,46 +1,52 @@
-// components/CircleScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView, Button } from 'react-native';
 import { supabase } from '../supabase';
 
-export default AccountScreen = ({ user }) => {
+export default function HistoryScreen({ user, navigate }) {
+  const [userWorkouts, setUserWorkouts] = useState([]);
 
-  // fetch function will have to be changed (Maanav can help with this part)
-  /*
-  const fetchAccountInfo = async () => {
+  const fetchUserWorkouts = async () => {
+    // Fetch workout logs for the logged-in user
     const { data, error } = await supabase
       .from('workout_logs')
-      .select(`
-        user_id,
-        exercises,
-        created_at,
-        users (email)
-      `)
-      .in('user_id',
-        supabase
-          .from('friends')
-          .select('friend_id')
-          .eq('user_id', user.id)
-          .eq('status', 'accepted')
-      )
+      .select('user_id, exercises, created_at')
+      .eq('user_id', user.id) // Fetch for the logged-in user
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching friend workouts:', error);
+      console.error('Error fetching user workouts:', error);
     } else {
-      setFriendWorkouts(data);
+      setUserWorkouts(data);
     }
-  };*/
+  };
 
-  /*
   useEffect(() => {
-    fetchFriendWorkouts();
-  }, []);*/
+    fetchUserWorkouts();
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.heading}>Account Info</Text>
+        <Text style={styles.heading}>Your Workout History</Text>
+        <Button title="Go to Friends" onPress={() => navigate('CircleScreen')} />
+        <FlatList
+          data={userWorkouts}
+          keyExtractor={(item, index) => `${item.user_id}-${index}`}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Text>{new Date(item.created_at).toLocaleDateString()}</Text>
+              <FlatList
+                data={item.exercises}
+                keyExtractor={(exercise, idx) => `${exercise.name}-${idx}`}
+                renderItem={({ item: exercise }) => (
+                  <Text style={styles.exercise}>
+                    {exercise.name}: {exercise.sets.length} sets
+                  </Text>
+                )}
+              />
+            </View>
+          )}
+        />
       </View>
     </SafeAreaView>
   );
@@ -53,7 +59,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingBottom: 80,
+    paddingBottom: 80, // Ensure space for the Navbar
   },
   heading: {
     fontSize: 24,
@@ -65,10 +71,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
-  },
-  friendEmail: {
-    fontWeight: 'bold',
-    fontSize: 16,
   },
   exercise: {
     fontSize: 14,
